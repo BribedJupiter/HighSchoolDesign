@@ -6,6 +6,13 @@ Date: 9/17/22
 Last Modified: 9/17/22 by Jack
 '''
 
+'''
+TODO: 
+-Make it so enter key will go to next screen
+-Make it so img is removed from list after it is used
+-Make it so round, score, streak are updated after each round
+'''
+
 # Imports our libraries
 from curses.ascii import CAN
 import tkinter as tk # For the GUI
@@ -21,6 +28,12 @@ for filename in glob.iglob(f"{img_folder}\*"):
     print (filename)
 print (img) # For debugging purposes - not sure why there are two backslashes in the names - "Images\\jupiter1.jpg"
 
+# Setup game start values
+total_rounds = 6 # Can make dynamic later, just putting this in for development right now
+round = 1
+score = 0
+streak = 0
+
 # Define the other windows, we will just call them as a function whenever we need to open the window. 
 def game():
     # Setup the game window
@@ -32,17 +45,14 @@ def game():
     game_window.columnconfigure([0,1,2], minsize=100, weight=1)
 
     # Setup the round number
-    round = 0
-    round_display = tk.Label(master=game_window, text=("Round: " + str(round)))
+    round_display = tk.Label(master=game_window, text=("Round: " + str(round) + "/" + str(total_rounds)))
     round_display.grid(row=0, column=0, sticky="nw")
 
     # Setup the score card
-    score = 0
     score_display = tk.Label(master=game_window, text=("Score: " + str(score)))
     score_display.grid(row=0, column=1, sticky="n")
 
     # Setup the hot streak
-    streak = 0
     streak_display = tk.Label(master=game_window, text=("Hot Streak: " + str(streak)))
     streak_display.grid(row=0, column=3, sticky="ne")
 
@@ -54,11 +64,16 @@ def game():
 
     # Setup the guessr entry form
     guess_lbl = tk.Label(master=game_window, text="Enter your guess:")
-    guess_lbl.grid(row=2, column=0, sticky="s")
+    guess_lbl.grid(row=2, column=0, sticky="se")
     guess_entry = tk.Entry(master=game_window, width=50)
     guess_entry.grid(row=2, column=1, sticky="s")
 
-    
+    # Setup next button
+    next_btn = tk.Button(master=game_window, text="Next", command=game)
+    next_btn.grid(row=2, column=2, sticky="se") 
+
+    # game_window.bind("<Return>", game) # can't figure out why this doesn't work, but the actual button works so isn't too broken
+        
 
 def leaderboard():
     global leaderboard_window
