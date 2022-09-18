@@ -14,7 +14,6 @@ TODO:
 '''
 
 # Imports our libraries
-from curses.ascii import CAN
 import tkinter as tk # For the GUI
 from PIL import ImageTk, Image # For displaying images - not sure if this is the best library to go with
 import glob # For reading file paths, not sure if should go with this or not
